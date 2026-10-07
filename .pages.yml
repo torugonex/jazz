@@ -1,0 +1,107 @@
+media: false
+
+content:
+  - name: tunes
+    label: 曲（記事）
+    type: collection
+    path: src/tunes
+    filename:
+      template: "{year}-{month}-{day}-{primary}.md"
+      field: create
+    view:
+      primary: title
+      fields: [title, title_ja]
+    fields:
+      - name: title
+        label: 曲名（英語）
+        type: string
+        required: true
+      - name: title_ja
+        label: 曲名（日本語表記）
+        type: string
+      - name: composer
+        label: 作曲者
+        type: string
+      - name: composed
+        label: 作曲年
+        type: string
+      - name: draft
+        label: 下書き（チェックすると公開しない）
+        type: boolean
+        default: false
+      - name: body
+        label: 曲について
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+      - name: takes
+        label: 名演
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {performer}"
+        fields:
+          - name: performer
+            label: 演奏者（名義）
+            type: string
+            required: true
+          - name: recorded
+            label: 録音年
+            type: string
+          - name: record
+            label: アルバム・レーベル
+            type: string
+          - name: personnel
+            label: メンバー
+            type: string
+          - name: youtube
+            label: YouTubeのリンク
+            type: string
+          - name: spotify
+            label: Spotifyのリンク
+            type: string
+          - name: comment
+            label: コメント
+            type: text
+
+  - name: about
+    label: このサイトについて
+    type: file
+    path: src/about.md
+    fields:
+      - name: layout
+        type: string
+        hidden: true
+      - name: title
+        type: string
+        hidden: true
+      - name: permalink
+        type: string
+        hidden: true
+      - name: body
+        label: 本文
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+
+  - name: site
+    label: サイト設定
+    type: file
+    path: src/_data/site.json
+    format: json
+    fields:
+      - name: title
+        label: サイト名
+        type: string
+      - name: eyebrow
+        label: 見出しの上の小さな英字
+        type: string
+      - name: tagline
+        label: トップの一文
+        type: string
+      - name: footer
+        label: ページ下の一文
+        type: string

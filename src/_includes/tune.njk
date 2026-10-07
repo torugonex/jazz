@@ -1,0 +1,38 @@
+---
+layout: base.njk
+---
+<main class="wrap">
+  <div class="tune-head">
+    <p class="eyebrow">{{ composer }}{% if composed %} · {{ composed }}{% endif %}</p>
+    <h1>{{ title }}</h1>
+    {% if title_ja %}<span class="ja">{{ title_ja }}</span>{% endif %}
+  </div>
+  <div class="prose">{{ content | safe }}</div>
+
+  <ol class="takes">
+  {% for t in takes %}
+    <li class="take">
+      <span class="no">{{ loop.index }}</span>
+      <div>
+        <h2>{{ t.performer }}</h2>
+        {% if t.recorded or t.record %}<p class="meta">{{ t.recorded }}{% if t.recorded and t.record %} · {% endif %}{% if t.record %}<i>{{ t.record }}</i>{% endif %}</p>{% endif %}
+        {% if t.personnel %}<p class="personnel">{{ t.personnel }}</p>{% endif %}
+        {% set yid = t.youtube | youtubeId %}{% set sp = t.spotify | spotifyEmbed %}
+        {% if yid %}
+          <div class="player"><div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/{{ yid }}" title="{{ t.performer }}（YouTube）" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
+        {% elif sp %}
+          <div class="player sp"><iframe src="{{ sp }}" title="{{ t.performer }}（Spotify）" loading="lazy" allow="encrypted-media"></iframe></div>
+        {% endif %}
+        <div class="comment">{{ t.comment | md | safe }}</div>
+        {% if t.youtube or t.spotify %}
+        <div class="listen">
+          {% if t.youtube %}<a class="btn" href="{{ t.youtube }}" target="_blank" rel="noopener">YouTubeで開く</a>{% endif %}
+          {% if t.spotify %}<a class="btn" href="{{ t.spotify }}" target="_blank" rel="noopener">Spotifyで開く</a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+  </ol>
+  <a class="back" href="{{ '/' | url }}">← 曲の一覧へ</a>
+</main>
